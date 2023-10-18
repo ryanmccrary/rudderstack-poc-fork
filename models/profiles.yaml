@@ -252,5 +252,4 @@ models:
         - campaigns_list
         - mediums_list
         - sources_list
-      compatibility_mode:
-        linear_dependency_of_vars: true
+
