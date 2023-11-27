@@ -43,6 +43,7 @@ models:
             window:
               order_by:
                 - timestamp desc
+              frame_clause: ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             where: state is not null and state!=''
         - entity_var:
             name: country
@@ -51,6 +52,7 @@ models:
             window:
               order_by:
                 - timestamp desc
+              frame_clause: ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING  
             where: address_country is not null and address_country!=''
         - entity_var:
             name: first_name
@@ -59,6 +61,7 @@ models:
             window:
               order_by:
                 - timestamp desc
+              frame_clause: ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             where: first_name is not null and first_name!=''
         - entity_var:
             name: last_name
@@ -67,6 +70,7 @@ models:
             window:
               order_by:
                 - timestamp desc
+              frame_clause: ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             where: last_name is not null and last_name!=''
         - entity_var:
             name: currency
@@ -75,10 +79,11 @@ models:
             window:
               order_by:
                 - timestamp desc
+              frame_clause: ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             where: currency is not null and currency!=''
         - entity_var:
             name: campaign_sources
-            select: array_agg( context_campaign_source )
+            select: listagg( context_campaign_source )
             from: inputs/rsPages
         - entity_var:
             name: active_days_in_past_7_days
@@ -180,6 +185,7 @@ models:
             window:
               order_by:
                 - timestamp asc
+              frame_clause: ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             where: context_campaign_name is not null and context_campaign_name!=''
             description: First campaign from which a user has visited the app
         - entity_var:
@@ -189,6 +195,7 @@ models:
             window:
               order_by:
                 - timestamp asc
+              frame_clause: ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             where: context_campaign_name is not null and context_campaign_name!=''
             description: Latest campaign from which a user has visited the app
         - entity_var:
@@ -198,6 +205,7 @@ models:
             window:
               order_by:
                 - timestamp asc
+              frame_clause: ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             where: context_campaign_source is not null and context_campaign_source!=''
             description: First source from which a user has visited the app
         - entity_var:
@@ -207,22 +215,23 @@ models:
             window:
               order_by:
                 - timestamp asc
+              frame_clause: ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
             where: context_campaign_source is not null and context_campaign_source!=''
             description: Last source from which a user has visited the app
         - entity_var:
             name: campaigns_list
             from: inputs/rsPages
-            select: array_agg( context_campaign_name) WITHIN GROUP (ORDER BY timestamp asc)
+            select: listagg( context_campaign_name) WITHIN GROUP (ORDER BY timestamp asc)
             description: list of all campaigns from which a user has visited the app, sorted in chronological order, from oldest to newest
         - entity_var:
             name: mediums_list
             from: inputs/rsPages
-            select: array_agg( context_campaign_medium) WITHIN GROUP (ORDER BY timestamp asc)
+            select: listagg( context_campaign_medium) WITHIN GROUP (ORDER BY timestamp asc)
             description: list of all mediums from which a user has visited the app, sorted in chronological order, from oldest to newest
         - entity_var:
             name: sources_list
             from: inputs/rsPages
-            select: array_agg( context_campaign_source) WITHIN GROUP (ORDER BY timestamp asc)
+            select: listagg( context_campaign_source) WITHIN GROUP (ORDER BY timestamp asc)
             description: list of all sources from which a user has visited the app, sorted in chronological order, from oldest to newest
       features:
         - days_since_last_seen
