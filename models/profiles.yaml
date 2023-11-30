@@ -1,19 +1,19 @@
 models:
-  - name: user_id_graph_poc
+  - name: ryan_id_graph
     model_type: id_stitcher
     model_spec:
       validity_time: 24h # 1 day
-      entity_key: user
+      entity_key: ryan_users
       edge_sources:
         - from: inputs/rsIdentifies
         - from: inputs/rsTracks
         - from: inputs/rsPages
           # Remove the section below, if you don't want to generate a feature table
-  - name: user_profile_poc
+  - name: ryan_feature_table
     model_type: feature_table_model
     model_spec:
       validity_time: 24h # 1 day
-      entity_key: user
+      entity_key: ryan_users
       vars:
         - entity_var:
             name: max_timestamp_bw_tracks_pages
@@ -22,13 +22,13 @@ models:
         #days since last seen
         - entity_var:
             name: days_since_last_seen
-            select: "{{macro_datediff('{{user.Var(\"max_timestamp_bw_tracks_pages\")}}')}}"
+            select: "{{macro_datediff('{{ryan_users.Var(\"max_timestamp_bw_tracks_pages\")}}')}}"
             dependencies:
               - max_timestamp_bw_tracks_pages
         #Churn features
         - entity_var:
             name: is_churned_7_days
-            select: case when {{user.Var("days_since_last_seen")}} > 7 then 1 else 0 end
+            select: case when {{ryan_users.Var("days_since_last_seen")}} > 7 then 1 else 0 end
             description: Depending on the n value, it specifies if there is any activity observed in the last 7 days.
             dependencies:
               - days_since_last_seen

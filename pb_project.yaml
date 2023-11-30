@@ -1,9 +1,9 @@
 # Project name
-name: rudderstack_profiles_poc
+name: ryan_timing_testing
 # Project's yaml schema version
 schema_version: 44
 # WH Connection Profile to use.
-connection: rudderstack_poc
+connection: Testing
 # Whether to allow inputs having no timestamps,
 # if true, data without timestamps are included when running models
 include_untimed: true
@@ -12,8 +12,8 @@ model_folders:
   - models
 # Entities in this project and their ids.
 entities:
-  - name: user
-    id_stitcher: models/user_id_graph_poc
+  - name: ryan_users
+    id_stitcher: models/ryan_id_graph
     serve_traits:
       - id_served: email
         name: user_profile_by_email

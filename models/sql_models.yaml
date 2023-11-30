@@ -21,17 +21,17 @@ models:
       ids:
         - select: "user_id"
           type: user_id
-          entity: user
+          entity: ryan_users
           to_default_stitcher: true
         - select: "anonymous_id"
           type: anonymous_id
-          entity: user
+          entity: ryan_users
           to_default_stitcher: true
       contract:
         is_optional: false
         is_event_stream: false
         with_entity_ids:
-          - user
+          - ryan_users
         with_columns:
           - name: user_id
           - name: anonymous_id
