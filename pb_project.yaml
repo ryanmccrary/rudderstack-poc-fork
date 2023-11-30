@@ -1,7 +1,7 @@
 # Project name
 name: rudderstack_profiles_poc
 # Project's yaml schema version
-schema_version: 42
+schema_version: 44
 # WH Connection Profile to use.
 connection: rudderstack_poc
 # Whether to allow inputs having no timestamps,
@@ -13,10 +13,12 @@ model_folders:
 # Entities in this project and their ids.
 entities:
   - name: user
-    id_stitcher: models/user_id_graph
+    id_stitcher: models/user_id_graph_poc
     serve_traits:
       - id_served: email
+        name: user_profile_by_email
       - id_served: user_id
+        name: user_profile_by_user_id
     id_types:
       - user_id
       - anonymous_id
